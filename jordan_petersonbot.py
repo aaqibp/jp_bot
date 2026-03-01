@@ -1,6 +1,13 @@
 import discord
 import os
 from dotenv import load_dotenv
+import requests
+import json
+
+def get_meme():
+  response = requests.get('https://meme-api.com/gimme')
+  json_data = json.loads(response.text)
+  return json_data['url']
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -39,6 +46,9 @@ class MyClient(discord.Client):
         
         if message.content.startswith("bf6"):
             await message.channel.send("BF6? You’re talking about simulated warfare on a global scale! You’re engaging in the primal struggle for dominance in a virtual landscape because you can’t handle the complexity of your own life! It’s like... look, if you can’t even secure Objective B, how are you going to secure the future of Western Civilization?")
+
+        if message.content.startswith("meme"):
+            await message.channel.send("It’s no small thing, the meme. You think you’re just scrolling, but you’re actually navigating a complex hierarchy of digital archetypes. And it’s like, 'Good luck with that!' You’re tossing a Pepe into the void and hoping the chaos doesn't swallow you whole, man!" + get_meme())
 
 intents = discord.Intents.default()
 intents.message_content = True
